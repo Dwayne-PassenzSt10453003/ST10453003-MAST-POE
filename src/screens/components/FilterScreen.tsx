@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { useRoute } from '@react-navigation/native';
 
 export default function FilterScreen() {
-    const [course, setCourse] = useState('All');
+    const [course, setCourse] = useState('Starter');
     const [price, setPrice] = useState('');
-    const route = useRoute();
-    const { onFilter } = route.params as { onFilter: (filter: { course: string; price: string }) => void };
+
 
     return (
         <View style={styles.container}>
-            {/* Course Dropdown */}
-            <Text style={styles.label}>Course</Text>
-            <View style={styles.dropdown}>
-                <Picker
-                    selectedValue={course}
-                    onValueChange={(itemValue: string) => setCourse(itemValue)}
-                >
-                    <Picker.Item label="All" value="All" />
-                    <Picker.Item label="Starter" value="Starter" />
-                    <Picker.Item label="Main" value="Main" />
-                    <Picker.Item label="Dessert" value="Dessert" />
+          { /*Course Dropdown*/}
+          <Text style={styles.label}>Course</Text>
+          <View style={styles.dropdown}>
+            <Picker
+            selectedValue={course}
+            onValueChange={(itemValue)=>setCourse(itemValue)}
+            style={styles.dropdownText}
+            >
+                <Picker.Item label="Starter" value="Starter" />
+                <Picker.Item label= "Main" value="Main" />
+                <Picker.Item label="Dessert" value="Dessert" />
                 </Picker>
-            </View>
+               </View>
 
-            {/* Price Input */}
+               {/*Price Input*/}
             <Text style={styles.label}>Price</Text>
             <TextInput
                 style={styles.input}
                 value={price}
                 onChangeText={setPrice}
-                placeholder="Enter max price"
+                placeholder="Enter price"
                 keyboardType="numeric"
             />
-
-            <TouchableOpacity style={styles.button} onPress={() => onFilter({ course, price })}>
+            
+            <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Filter</Text>
             </TouchableOpacity>
         </View>
@@ -60,11 +58,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 8,
         marginBottom: 16,
-        paddingHorizontal: 12,
+        padding: 12,
         borderWidth: 1,
         borderColor: '#ddd',
-        height: 50,
-        justifyContent: 'center',
     },
     dropdownText: {
         color: '#222',
@@ -73,12 +69,11 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#fff',
         borderRadius: 8,
-        paddingHorizontal: 12,
+        padding: 12,
         marginBottom: 32,
         fontSize: 16,
         borderWidth: 1,
         borderColor: '#ddd',
-        height: 50,
     },
     button: {
         backgroundColor: '#FF2D2D',
