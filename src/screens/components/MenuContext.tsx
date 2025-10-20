@@ -1,19 +1,32 @@
 import React, { createContext, useState } from 'react';
 
+export interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  course: string;
+  price: string;
+}
+
 export const MenuContext = createContext({
-  menuItems: [],
-  addMenuItem: (item) => {},
+  menuItems: [] as MenuItem[],
+  addMenuItem: (item: Omit<MenuItem, 'id'>) => {},
+  removeMenuItem: (id: number) => {},
 });
 
 export const MenuProvider = ({ children }) => {
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
-  const addMenuItem = (item) => {
+  const addMenuItem = (item: Omit<MenuItem, 'id'>) => {
     setMenuItems([...menuItems, { ...item, id: menuItems.length + 1 }]);
   };
 
+  const removeMenuItem = (id: number) => {
+    setMenuItems(menuItems.filter((item) => item.id !== id));
+  };
+
   return (
-    <MenuContext.Provider value={{ menuItems, addMenuItem }}>
+    <MenuContext.Provider value={{ menuItems, addMenuItem, removeMenuItem }}>
       {children}
     </MenuContext.Provider>
   );

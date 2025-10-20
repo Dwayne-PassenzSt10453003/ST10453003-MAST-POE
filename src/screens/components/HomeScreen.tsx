@@ -1,33 +1,17 @@
-import { useEffect,useState } from 'react';
-import React from 'react';
-import { View, ScrollView} from 'react-native'
-import { StyleSheet, Text } from 'react-native';
-import { useRoute, useFocusEffect } from '@react-navigation/native';
-import { Animated } from 'react-native';
+import React, { useEffect, useContext, useRef } from 'react';
+import { View, ScrollView, StyleSheet, Text, Animated, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRef } from 'react';
-export default function HomeScreen({navigation,  route}:  any) {
+import { MenuContext } from './MenuContext';
 
-const menuItems = [
-    { id: 1, course:'Starters',name: 'Bruschetta', description: 'An Italian appetizer grilled bread topped with tomatoes, garlic, basil, and olive oil.',price: 'R90.99' },
-    { id: 2, course:'Starters',name: 'Charcuterie Board', description: 'This dish mainly consists of a selection of cured meats, like salami, variaty of cheeses, and additional edibles like fruits.',price: 'R230.99'},
-    { id: 3, course:'Main',name: 'Lamb', description: 'Roasted lamb brisket that is flavourful and contains an enticing amount of juiciness to better fullful the palate',price: 'R95.99'},
-    { id: 4, course:'Main',name: 'Macaroni and cheese', description: ' A food comfort that consists out of delicious macaroni and with cheese sauce to give that extra flavour.',price: 'R70.99'},
-    { id: 5, course:'Deserts',name: 'Chocolate Mousse', description: 'The texture consists of a light, airy texture it has an intense yet perfectly balanced Chocolate taste.',price: 'R39.99'},
-    { id: 6, course:'Deserts',name: 'Strawberry cream cake', description: 'Layered in vanilla cakes dressed in juicy strawberries and covered in whipped cream.',price: 'R219.99'},                
-];
-const [dishes, setDishes] = useState(menuItems);
-useFocusEffect(
-    React.useCallback(()=>{
-        if (route.params && route.params.newDishes){
-            setDishes((prev) => [...prev, route.params.newDishes]);
-        }
-    },[route.params])
-);
+export default function HomeScreen({ navigation }: any) {
+    const { menuItems, removeMenuItem } = useContext(MenuContext);
+    const maxDishesPerCourse = 2;
+    const totalMaxDishes = maxDishesPerCourse * 3;
+
     //Avatar Jumping Animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
     
-      useEffect(()  =>{
+      useEffect(()  => {
         const loop = Animated.loop(
             Animated.sequence([
                 Animated.timing(jumpAnimation, {toValue: -10, duration: 600, useNativeDriver: true}),
@@ -38,30 +22,37 @@ useFocusEffect(
         return () => loop.stop();
     }, []);
 
-      
-
 return (
        <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.menu}>
                 <Text style={styles.title}>Menu</Text>
 
-                {/*Dishes Grouped by Course*/}
-                {['Starters', 'Main', 'Deserts'].map((course) => (
-                    <View key={course}>
-                        <Text style={styles.sectionTitle}>{course}</Text>
-                        {dishes
-                        .filter((d)=> d.course === course)
-                        .map((dish) => (
-                            <View key={dish.id} style={styles.itemRow}>
-                                <Text style={styles.itemText}>
-                                    {dish.id}. {dish.name} - {dish.description}
-                                    </Text>
-                                <Text style={styles.price}>{dish.price}</Text>
-                            </View>
-                        ))}
+                {['Starters', 'Main', 'Deserts'].map((course) => {
+                    const courseItems = menuItems.filter((d) => d.course === course);
+                    return (
+                        <View key={course}>
+                            <Text style={styles.sectionTitle}>{course}</Text>
+                            <Text style={styles.counterText}>({courseItems.length}/{maxDishesPerCourse})</Text>
+                            {courseItems.length > 0 ? (
+                                courseItems.map((dish) => (
+                                    <View key={dish.id} style={styles.itemRow}>
+                                        <Text style={styles.itemText}>
+                                            {dish.id}. {dish.name} - {dish.description}
+                                        </Text>
+                                        <Text style={styles.price}>{dish.price}</Text>
+                                        <TouchableOpacity onPress={() => removeMenuItem(dish.id)} style={styles.removeButton}>
+                                            <Text style={styles.removeButtonText}>Remove</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                ))
+                            ) : (
+                                <Text style={styles.placeholderDish}>Empty, Add Dish Now!</Text>
+                            )}
                         </View>
-                ))}
+                    );
+                })}
+                <Text style={styles.totalText}>Total ({menuItems.length}/{totalMaxDishes})</Text>
             </View>
 
         </ScrollView>
@@ -110,6 +101,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textDecorationLine:'underline',
    },
+   counterText: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 5,
+   },
    itemRow:{
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -122,6 +118,29 @@ const styles = StyleSheet.create({
    },
    price: {
     fontSize: 18,
+   },
+   removeButton: {
+    backgroundColor: '#d80707ff',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginLeft: 10,
+   },
+   removeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+   },
+   placeholderDish: {
+    fontSize: 16,
+    color: '#A9A9A9',
+    marginTop: 10,
+    textAlign: 'center',
+   },
+   totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
    },
  avatarContainer: {
     position: 'absolute',
