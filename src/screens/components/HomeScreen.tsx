@@ -5,8 +5,6 @@ import { MenuContext } from './MenuContext';
 
 export default function HomeScreen({ navigation }: any) {
     const { menuItems, removeMenuItem } = useContext(MenuContext);
-    const maxDishesPerCourse = 2;
-    const totalMaxDishes = maxDishesPerCourse * 3;
 
     //Avatar Jumping Animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
@@ -33,14 +31,14 @@ return (
                     return (
                         <View key={course}>
                             <Text style={styles.sectionTitle}>{course}</Text>
-                            <Text style={styles.counterText}>({courseItems.length}/{maxDishesPerCourse})</Text>
+                            <Text style={styles.counterText}>({courseItems.length})</Text>
                             {courseItems.length > 0 ? (
                                 courseItems.map((dish) => (
                                     <View key={dish.id} style={styles.itemRow}>
                                         <Text style={styles.itemText}>
                                             {dish.id}. {dish.name} - {dish.description}
                                         </Text>
-                                        <Text style={styles.price}>{dish.price}</Text>
+                                        <Text style={styles.price}>R{dish.price}</Text>
                                         <TouchableOpacity onPress={() => removeMenuItem(dish.id)} style={styles.removeButton}>
                                             <Text style={styles.removeButtonText}>Remove</Text>
                                         </TouchableOpacity>
@@ -52,7 +50,7 @@ return (
                         </View>
                     );
                 })}
-                <Text style={styles.totalText}>Total ({menuItems.length}/{totalMaxDishes})</Text>
+                <Text style={styles.totalText}>Total ({menuItems.length})</Text>
             </View>
 
         </ScrollView>
@@ -110,6 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
+    alignItems: 'flex-start',
    },
    itemText: {
     flex: 1,
@@ -149,3 +148,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
  }   
 });
+//References//

@@ -16,9 +16,11 @@ export const MenuContext = createContext({
 
 export const MenuProvider = ({ children }) => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [nextId, setNextId] = useState(1);
 
   const addMenuItem = (item: Omit<MenuItem, 'id'>) => {
-    setMenuItems([...menuItems, { ...item, id: menuItems.length + 1 }]);
+    setMenuItems([...menuItems, { ...item, id: nextId }]);
+    setNextId(nextId + 1);
   };
 
   const removeMenuItem = (id: number) => {
