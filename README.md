@@ -18,8 +18,8 @@ React Navigation: Used for routing and navigation between screens.
 TypeScript: The project is written in TypeScript.  
 
 ## App Executing Process
-First install the app then inside Visual Code click left then open intergrated terminal then 
-enter the command npx expo start --tunnel for expo go, To run on Deskop enter npm start in intergrated terminal
+First install the app then inside Visual Code click on the left side button of the mouse then click on open intergrated terminal then 
+enter the command npx expo start --tunnel for expo go, To run on Deskop enter npm start in intergrated terminal.
 
 ## Referencing  
 Meta, 2025. React-Native. [online] Available at: <https://reactnative.dev/docs/getting-started> [Accessed 1 October 2025].
