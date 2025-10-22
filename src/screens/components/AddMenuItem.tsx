@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, StyleSheet, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform, TextInput, Alert } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform, TextInput, Alert, Switch, InputAccessoryView, Keyboard } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { MenuContext } from './MenuContext';
 import { useNavigation } from '@react-navigation/native';
@@ -12,12 +12,50 @@ export default function AddMenuItem() {
     const [description, setDescription] = useState('');
     const [course, setCourse] = useState('Starters');
     const [price, setPrice] = useState('');
+    const [isNumericKeyboard, setIsNumericKeyboard] = useState(true);
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+    const inputAccessoryViewID = 'priceInputAccessory';
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true);
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
 
     const handleSubmit = () => {
-        addMenuItem({ name, description, course, price });
+        const priceNumber = parseFloat(price);
+        if (isNaN(priceNumber)) {
+            Alert.alert('Error', 'Please enter a valid price.');
+            return;
+        }
+        addMenuItem({ name, description, course, price: priceNumber });
         Alert.alert('Success', 'New dish submitted!');
         navigation.goBack();
     };
+
+    const keyboardSwitch = (
+        <View style={styles.accessoryView}>
+            <Text style={styles.accessoryText}>Switch to {isNumericKeyboard ? 'Default' : 'Numeric'} Keyboard</Text>
+            <Switch
+                value={isNumericKeyboard}
+                onValueChange={setIsNumericKeyboard}
+            />
+        </View>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -68,7 +106,8 @@ export default function AddMenuItem() {
                             value={price}
                             onChangeText={setPrice}
                             placeholder='Enter Price'
-                            keyboardType='numeric'
+                            keyboardType={isNumericKeyboard ? 'numeric' : 'default'}
+                            inputAccessoryViewID={inputAccessoryViewID}
                         />
                         {/*Submit Dish Button*/}
                         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -77,6 +116,13 @@ export default function AddMenuItem() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+            {Platform.OS === 'ios' ? (
+                <InputAccessoryView nativeID={inputAccessoryViewID}>
+                    {keyboardSwitch}
+                </InputAccessoryView>
+            ) : (
+                isKeyboardVisible && keyboardSwitch
+            )}
         </SafeAreaView>
     );
 }
@@ -133,5 +179,17 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 18,
+    },
+    accessoryView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#f8f8f8',
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
+    },
+    accessoryText: {
+        fontSize: 16,
     },
 });

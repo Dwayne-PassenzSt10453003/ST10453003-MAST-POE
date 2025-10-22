@@ -5,7 +5,7 @@ import HomeScreen from './HomeScreen';
 import AddMenuItem from './AddMenuItem';
 import { Ionicons } from '@expo/vector-icons';
 import AnimatedSplashScreen from './AnimatedSplashScreen';
-import { menuItems, MenuItem } from '../../data';
+import { MenuItem } from './MenuContext';
 
 export type RootTabParamList = {
     Home: { menuItems: MenuItem[] };
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 interface Filter {
     course: string;
-    price: string;
+    price: number;
 }
 
 const screenOptions: (props: { route: any }) => BottomTabNavigationOptions = ({ route }) => ({
@@ -40,7 +40,6 @@ const screenOptions: (props: { route: any }) => BottomTabNavigationOptions = ({ 
 
 export default function AppNavigator() {
     const [showSplash, setShowSplash] = useState(true);
-    const [filters, setFilters] = useState<Filter>({ course: 'All', price: '' });
 
     if (showSplash) {
         return (
@@ -48,21 +47,11 @@ export default function AppNavigator() {
         );
     }
 
-    const handleFilter = (filter: Filter) => {
-        setFilters(filter);
-    };
-
-    const filteredMenuItems = menuItems.filter((item) => {
-        const courseMatch = filters.course === 'All' || item.course === filters.course;
-        const priceMatch = filters.price === '' || item.price <= parseFloat(filters.price);
-        return courseMatch && priceMatch;
-    });
-
     return (
         <Tab.Navigator screenOptions={screenOptions} id={undefined}>
             {/* Add for POE 3 */}
             {/**<Tab.Screen name='FilterScreen' component={FilterScreen} initialParams={{ onFilter: handleFilter }} />**/}
-            <Tab.Screen name='Home' component={HomeScreen} initialParams={{ menuItems: filteredMenuItems }} />
+            <Tab.Screen name='Home' component={HomeScreen} />
             <Tab.Screen name='AddMenuItem' component={AddMenuItem} options={{ tabBarLabel: 'Add Item' }} />
         </Tab.Navigator>
     );

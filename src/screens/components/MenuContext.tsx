@@ -5,7 +5,7 @@ export interface MenuItem {
   name: string;
   description: string;
   course: string;
-  price: string;
+  price: number;
 }
 
 export const MenuContext = createContext({
@@ -14,7 +14,7 @@ export const MenuContext = createContext({
   removeMenuItem: (id: number) => {},
 });
 
-export const MenuProvider = ({ children }) => {
+export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [nextId, setNextId] = useState(1);
 

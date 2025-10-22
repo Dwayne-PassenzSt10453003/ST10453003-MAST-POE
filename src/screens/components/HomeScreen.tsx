@@ -3,10 +3,11 @@ import { View, ScrollView, StyleSheet, Text, Animated, TouchableOpacity } from '
 import { Ionicons } from '@expo/vector-icons';
 import { MenuContext } from './MenuContext';
 
+//(Meta, 2025)//
 export default function HomeScreen({ navigation }: any) {
     const { menuItems, removeMenuItem } = useContext(MenuContext);
 
-    //Avatar Jumping Animation
+    //Avatar Jumping Animation// //(Meta, 2025)//
     const jumpAnimation = useRef(new Animated.Value(0)).current;
     
       useEffect(()  => {
@@ -25,7 +26,7 @@ return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.menu}>
                 <Text style={styles.title}>Menu</Text>
-
+                 {/*Rendering Menu Mapping*/}
                 {['Starters', 'Main', 'Deserts'].map((course) => {
                     const courseItems = menuItems.filter((d) => d.course === course);
                     return (
@@ -64,6 +65,7 @@ return (
    </View>
    );
 }
+//(Meta, 2025)//
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 5,
     alignItems: 'flex-start',
+    gap: 10,
    },
    itemText: {
     flex: 1,
@@ -148,4 +151,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
  }   
 });
-//References//
+
