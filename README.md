@@ -21,5 +21,7 @@ TypeScript: The project is written in TypeScript.
 First install the app then inside Visual Code click left then open intergrated terminal then 
 enter the command npx expo start --tunnel for expo go, To run on Deskop enter npm start in intergrated terminal
 
-
+## Referencing  
+Meta, 2025. React-Native. [online] Available at: <https://reactnative.dev/docs/getting-started> [Accessed 1 October 2025].
+OpenAI, 2025. OpenAI. [online] Available at: <https://chatgpt.com/> [Accessed 5 October 2025]
 
