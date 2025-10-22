@@ -25,3 +25,23 @@ enter the command npx expo start --tunnel for expo go, To run on Deskop enter np
 Meta, 2025. React-Native. [online] Available at: <https://reactnative.dev/docs/getting-started> [Accessed 1 October 2025].
 OpenAI, 2025. OpenAI. [online] Available at: <https://chatgpt.com/> [Accessed 5 October 2025]
 
+## Changelog  
+Added some citing to my code.
+Made changes to the counters for my three courses
+Made changes to the counter went from a limited count to an unlimited count, and adjusted the "Remove"button size in 'fllex'.
+Added an animated splash screen, menucontext for handling menu item storage and extracted to styles.tsx
+Fixed change conflict due to file saving issues
+Added screens and functionality for navigation, filtering and home screen
+Added a new interface for storing menu items
+Updated App.tsx to scaffold other components. Updated npm installs for navigation and picker
+
+## Youtube Links:  
+
+App Walkthrough
+https://youtu.be/t5Ha5wSGt_Y 
+
+Code Walkthrough
+https://www.youtube.com/watch?v=ugLRIAcLOz0
+
+
+
