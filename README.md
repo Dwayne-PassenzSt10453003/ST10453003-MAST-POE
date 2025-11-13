@@ -23,7 +23,6 @@ enter the command npx expo start --tunnel for expo go, To run on Deskop enter np
 
 ## Referencing  
 Meta, 2025. React-Native. [online] Available at: <https://reactnative.dev/docs/getting-started> [Accessed 1 October 2025].
-OpenAI, 2025. OpenAI. [online] Available at: <https://chatgpt.com/> [Accessed 5 October 2025]
 
 ## Changelog  
 Added some citing to my code.
