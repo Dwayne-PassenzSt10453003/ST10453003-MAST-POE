@@ -36,11 +36,8 @@ Updated App.tsx to scaffold other components. Updated npm installs for navigatio
 
 ## Youtube Links:  
 
-App Walkthrough
-https://youtu.be/t5Ha5wSGt_Y 
-
-Code Walkthrough
-https://www.youtube.com/watch?v=ugLRIAcLOz0
+Walkthrough
+https://www.youtube.com/watch?v=SsJNqXu9pT8
 
 
 
